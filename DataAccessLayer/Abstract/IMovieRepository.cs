@@ -3,6 +3,7 @@ using Entities.Concrete;
 
 namespace DataAccessLayer.Abstract;
 
-public interface IMovieDal : IEntityRepostitory<Movie>
+public interface IMovieRepository : IEntityRepostitory<Movie>
 {
+  Task AddOrUpdateMovieAsync(Movie movie);
 }

@@ -18,9 +18,9 @@ public class MoviesController : Controller
   }
 
   [HttpGet("getlist")]
-  public IActionResult GetList()
+  public IActionResult GetList(int pageSize, int pageNumber)
   {
-    IDataResult<List<Movie>> dataResult = _movieService.GetList();
+    IDataResult<List<Movie>> dataResult = _movieService.GetList(pageSize, pageNumber);
     if (dataResult.Success)
     {
       return Ok(dataResult.Data);
@@ -29,22 +29,10 @@ public class MoviesController : Controller
     return BadRequest(dataResult.Message);
   }
 
-  [HttpGet("getlistbycategory")]
-  public IActionResult GetListByCategory(List<int> genreIds)
-  {
-    IDataResult<List<Movie>> dataResult = _movieService.GetByGenreIds(genreIds);
-    if (dataResult.Success)
-    {
-      return Ok(dataResult.Data);
-    }
-
-    return BadRequest(dataResult.Message);
-  }
-
-  [HttpGet("get")]
+  [HttpGet("getbyid")]
   public IActionResult Get(int movieId)
   {
-    IDataResult<Movie> dataResult = _movieService.GetById(movieId);
+    IDataResult<Movie?> dataResult = _movieService.GetById(movieId);
     if (dataResult.Success)
     {
       return Ok(dataResult.Data);
@@ -84,30 +72,6 @@ public class MoviesController : Controller
     if (result.Success)
     {
       return Ok("Deleted");
-    }
-
-    return BadRequest(result.Message);
-  }
-
-  [HttpPost("ratemovie")]
-  public IActionResult RateMovie(int movieId, double rating)
-  {
-    IResult result = _movieService.RateMovie(movieId, rating);
-    if (result.Success)
-    {
-      return Ok("Rated");
-    }
-
-    return BadRequest(result.Message);
-  }
-
-  [HttpPost("addnotetomovie")]
-  public IActionResult AddNoteToMovie(int movieId, string note)
-  {
-    IResult result = _movieService.AddNoteToMovie(movieId, note);
-    if (result.Success)
-    {
-      return Ok("Noted");
     }
 
     return BadRequest(result.Message);
