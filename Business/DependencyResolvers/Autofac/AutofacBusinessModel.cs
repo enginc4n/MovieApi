@@ -10,7 +10,14 @@ public class AutofacBusinessModule : Module
 {
   protected override void Load(ContainerBuilder builder)
   {
-    builder.RegisterType<MovieManager>().As<IMovieService>();
-    builder.RegisterType<EfMovieDal>().As<IMovieDal>();
+    builder.RegisterType<MovieService>()
+      .As<IMovieService>()
+      .InstancePerLifetimeScope();
+    builder.RegisterType<EfMovieRepository>()
+      .As<IMovieRepository>()
+      .InstancePerLifetimeScope();
+    builder.RegisterType<TmdbService>()
+      .As<ITmdbService>()
+      .SingleInstance();
   }
 }
